@@ -1,0 +1,16 @@
+import React from "react";
+import { Card } from "../components/ui/card";
+
+class VerificationFragment extends React.Component {
+    render() {
+        return(
+            <div>
+                <Card className="border p-2">
+                    VerificationFragment
+                </Card>
+            </div>
+        )
+    }
+}
+
+export default VerificationFragment;

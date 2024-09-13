@@ -2,7 +2,7 @@
   "name": "all-in-one-discord-javascript-bot",
   "version": "1.0.0",
   "description": "An All-in-One JavaScript Discord BOT",
-  "main": "server/index.js",
+  "main": "server/server.js",
   "type": "module",
   "scripts": {
     "start:dashboard": "cd dashboard && npm run dev",
@@ -25,7 +25,9 @@
   },
   "dependencies": {
     "concurrently": "^9.0.0",
+    "cors": "^2.8.5",
     "discord.js": "^14.16.1",
+    "globby": "^14.0.2",
     "mongoose": "^8.6.1"
   }
 }
