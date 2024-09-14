@@ -6,22 +6,19 @@ import { useState } from "react";
 const LoginPage = () => {
     const { toast } = useToast();
     const [isLoggingIn, setIsLoggingIn] = useState(false);
-
     const handleDiscordLogin = async () => {
         toast({
             description: "Trying to login with Discord."
         });
-
         setIsLoggingIn(true);
-
-        await new Promise(resolve => setTimeout(resolve, 2000)); // Trying to simulate a promise for 2 seconds
-
+        const discordLoginUrl = 'http://localhost:3001/auth/discord';
+        window.location.href = discordLoginUrl;
         setIsLoggingIn(false);
     }
 
     return(
         <div className="h-screen w-full flex justify-center items-center">
-            <Button onClick={handleDiscordLogin}>
+            <Button onClick={handleDiscordLogin} disabled={isLoggingIn}>
                 {
                     isLoggingIn? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -2,8 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import session from 'express-session';
 import client from './bot.js';
 import apiRoutes from './api/index.js';
+import authRoutes from './auth/authRoutes.js';
 
 dotenv.config();
 
@@ -11,7 +13,15 @@ const app = express();
 const SERVER_PORT = process.env.SERVER_PORT || 3001;
 
 app.use(express.json());
-app.use(cors({origin: "http://localhost:3000"}))
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'barneystinson',
+    resave: false,
+    saveUninitialized: false,
+}));
+
+app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || null;
