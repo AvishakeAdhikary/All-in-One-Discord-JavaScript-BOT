@@ -4,17 +4,14 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-
-interface Server {
-    id: string;
-    name: string;
-    icon?: string;
-}
+import { useServer } from '../contexts/ServerContext';
+import Server from "../types/server";
 
 const ServersPage: React.FC = () => {
     const [servers, setServers] = useState<Server[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const { setServer } = useServer();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,7 +47,8 @@ const ServersPage: React.FC = () => {
     }
 
     const handleEditSettings = (server: Server) => {
-        navigate("/serverdashboard", {state: { server }});
+        setServer(server); // Set the server context
+        navigate("/serverdashboard");
     };
 
     return (
@@ -66,7 +64,7 @@ const ServersPage: React.FC = () => {
                             <img
                                 className="rounded"
                                 src={server.icon ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png` : "https://placehold.co/200x200"}
-                                alt={server.name}
+                                alt={server.name? server.name : ""}
                                 height={200}
                                 width={200}
                             />

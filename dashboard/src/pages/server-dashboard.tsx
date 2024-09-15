@@ -14,12 +14,8 @@ import MISCFragment from "../menu-fragments/misc"
 import LevelFragment from "../menu-fragments/level"
 import BirthdaysFragment from "../menu-fragments/birthdays"
 import ToolsFragment from "../menu-fragments/tools"
-import { useLocation } from "react-router-dom"
 
 export default function ServerDashboard() {
-    let location = useLocation();
-    const server = location.state.server;
-
     return (
         <div className="h-screen w-full">
             <Navbar />
