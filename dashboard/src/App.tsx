@@ -7,16 +7,15 @@ import ServersPage from './pages/servers';
 import ServerDashboard from './pages/server-dashboard';
 import HomePage from './pages';
 
-function App() {
+const App: React.FC = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      {/* <ServerDashboard /> */}
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<HomePage/>} />
           <Route path='/login' element={<LoginPage/>} />
           <Route path='/servers' element={<ServersPage/>} />
-          <Route path='/serverdashboard' element={<ServerDashboard />} />
+          <Route path='/serverdashboard/*' element={<ServerDashboard />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

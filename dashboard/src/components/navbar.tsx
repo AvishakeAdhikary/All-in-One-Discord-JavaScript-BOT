@@ -5,6 +5,7 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import { BotIcon, LogOut, Settings } from "lucide-react";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
+import { ModeToggle } from "./mode-toggle";
 
 interface User {
     id: string;
@@ -71,33 +72,36 @@ class Navbar extends React.Component<{}, NavbarState>{
         }
 
         return(
-        <div className="p-2 w-full flex max-h-14" style={{ listStyle: "none" }}>
+        <div className="p-2 w-full flex max-h-14 border-b" style={{ listStyle: "none" }}>
             <NavigationMenu className="flex justify-between items-center max-w-full">
                 <NavigationMenuItem className="flex items-center">
                     <BotIcon className="mr-2 border rounded"/> AIO Discord BOT
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem className="flex flex-row">
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger className="cursor-pointer" asChild>
                             <Avatar>
                                 <AvatarImage src={user? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`:"https://github.com/shadcn.png"} alt={user?.username || "User"}/>
                             </Avatar>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56 bg-black rounded">
+                        <DropdownMenuContent className="w-56 border rounded">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">
                                 <Settings className="mr-2 h-4 w-4" />
                                 <span>Settings</span>
                                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={this.handleLogout}>
+                            <DropdownMenuItem className="cursor-pointer" onClick={this.handleLogout}>
                                 <LogOut className="mr-2 h-4 w-4" />
                                 <span>Log out</span>
                                 <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    <div className="ml-2">
+                        <ModeToggle />
+                    </div>
                 </NavigationMenuItem>
             </NavigationMenu>
         </div>

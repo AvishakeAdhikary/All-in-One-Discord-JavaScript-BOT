@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Pencil } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -14,6 +15,7 @@ const ServersPage: React.FC = () => {
     const [servers, setServers] = useState<Server[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchServers = async () => {
@@ -47,13 +49,17 @@ const ServersPage: React.FC = () => {
         return <div>Error: {error}</div>;
     }
 
+    const handleEditSettings = (server: Server) => {
+        navigate("/serverdashboard", {state: { server }});
+    };
+
     return (
         <div className="h-screen w-full">
             <Navbar />
             <div className="flex flex-wrap p-8 justify-evenly">
                 {servers.map(server => (
                     <Card key={server.id} className="mr-4 mb-4">
-                        <CardHeader>
+                        <CardHeader className="text-center">
                             <CardTitle>{server.name}</CardTitle>
                         </CardHeader>
                         <CardContent className="flex flex-col items-center">
@@ -67,7 +73,7 @@ const ServersPage: React.FC = () => {
                             <Button className="mt-2">
                                 <Link className="mr-2 h-4 w-4" /> Invite BOT
                             </Button>
-                            <Button className="mt-1">
+                            <Button className="mt-1" onClick={() => handleEditSettings(server)}>
                                 <Pencil className="mr-2 h-4 w-4" /> Edit Settings
                             </Button>
                         </CardContent>

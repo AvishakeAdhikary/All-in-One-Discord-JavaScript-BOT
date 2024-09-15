@@ -5,7 +5,7 @@ import { Circle } from "lucide-react";
 
 const SERVER_URL = "http://127.0.0.1:3001"
 
-const HomeFragment = () => {
+const HomeFragment: React.FC = () => {
     const [isOnline, setIsOnline] = useState(false);
 
     useEffect(() => {
