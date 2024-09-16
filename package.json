@@ -20,8 +20,11 @@
   },
   "homepage": "https://github.com/AvishakeAdhikary/All-in-One-Discord-JavaScript-BOT#readme",
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "dotenv": "^16.4.5",
-    "express": "^5.0.0"
+    "eslint": "^9.10.0",
+    "express": "^5.0.0",
+    "globals": "^15.9.0"
   },
   "dependencies": {
     "axios": "^1.7.7",

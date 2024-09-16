@@ -7,6 +7,8 @@ import { Button } from "../components/ui/button";
 import { useServer } from '../contexts/ServerContext';
 import Server from "../types/server";
 
+const inviteURL = `https://discord.com/oauth2/authorize?client_id=1276859825833115669&permissions=8&integration_type=0&scope=bot`
+
 const ServersPage: React.FC = () => {
     const [servers, setServers] = useState<Server[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -68,7 +70,7 @@ const ServersPage: React.FC = () => {
                                 height={200}
                                 width={200}
                             />
-                            <Button className="mt-2">
+                            <Button className="mt-2" onClick={() => { window.open(inviteURL, "_blank") }}>
                                 <Link className="mr-2 h-4 w-4" /> Invite BOT
                             </Button>
                             <Button className="mt-1" onClick={() => handleEditSettings(server)}>

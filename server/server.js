@@ -38,7 +38,7 @@ app.listen(SERVER_PORT, () => {
             .catch(error => console.error(`Error occurred while attempting to connect to ${process.env.MONGO_DB_URI}.`, error));
     }
 
-    client.login(process.env.DISCORD_BOT_TOKEN)
+    client.login(DISCORD_BOT_TOKEN)
         .then(() => console.log('Bot logged in successfully.'))
         .catch(error => console.error('Error occurred while trying to create bot with token.', error));
 });

@@ -1,5 +1,9 @@
-export const name = Events.ClientReady;
+import { Events } from 'discord.js';
 
-export const execute = async (client) => {
-    console.log(`Ready! Logged in as ${client.user.tag}`);
+export default {
+	name: Events.ClientReady,
+	once: true,
+	execute(client) {
+		console.log(`Ready! Logged in as ${client.user.tag}`);
+	},
 };

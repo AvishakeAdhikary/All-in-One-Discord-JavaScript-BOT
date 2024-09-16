@@ -20,8 +20,6 @@ router.get('/discord/callback', async (req, res) => {
         const guilds = await getUserGuildsInfo(access_token);
         req.session.user = user;
         req.session.guilds = guilds;
-        console.log("Logged in as user:", req.session.user);
-        console.log("User guilds:", req.session.guilds);
         res.redirect('http://localhost:3000/servers');
     } catch (error) {
         console.error('Authentication error:', error);

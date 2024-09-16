@@ -13,7 +13,6 @@ const SERVER_URL = "http://127.0.0.1:3001"
 const HomeFragment: React.FC = () => {
     const [isOnline, setIsOnline] = useState(false);
     const { server } = useServer();
-    console.log("Server from home:", server);
     useEffect(() => {
         const fetchStatus = async () => {
             try {
