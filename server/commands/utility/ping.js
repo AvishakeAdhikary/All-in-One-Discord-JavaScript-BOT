@@ -12,12 +12,12 @@ export default {
 		if(!interaction.editReply)
 		{
 			await interaction.reply({
-				content: `🏓 Pong! Latency is ${latency}ms. API latency is ${apiLatency}ms.`,
+				content: `🏓 Pong! Latency is \`${latency}ms\`. API latency is \`${apiLatency}ms\`.`,
 			});
 		}
 		else{
 			await interaction.editReply({
-				content: `🏓 Pong! Latency is ${latency}ms. API latency is ${apiLatency}ms.`,
+				content: `🏓 Pong! Latency is \`${latency}ms\`. API latency is \`${apiLatency}ms\`.`,
 			});
 		}
 	},

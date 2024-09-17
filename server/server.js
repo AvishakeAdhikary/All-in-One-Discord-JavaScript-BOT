@@ -3,9 +3,10 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import session from 'express-session';
-import client from './bot.js';
+import client, { loadCommands, loadEvents } from './bot.js';
 import apiRoutes from './api/index.js';
 import authRoutes from './auth/authRoutes.js';
+import discord from 'discord.js'
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || null;
+const rest = new discord.REST({ version: '10' }).setToken(DISCORD_BOT_TOKEN);
 
 app.listen(SERVER_PORT, () => {
     console.log(`Listening on server port: ${SERVER_PORT}.`);
@@ -40,5 +42,9 @@ app.listen(SERVER_PORT, () => {
 
     client.login(DISCORD_BOT_TOKEN)
         .then(() => console.log('Bot logged in successfully.'))
+        .then(() => {
+            loadCommands(rest);
+            loadEvents(rest);
+        })
         .catch(error => console.error('Error occurred while trying to create bot with token.', error));
 });
