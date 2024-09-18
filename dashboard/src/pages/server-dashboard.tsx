@@ -15,6 +15,7 @@ import LevelFragment from "../menu-fragments/level"
 import BirthdaysFragment from "../menu-fragments/birthdays"
 import ToolsFragment from "../menu-fragments/tools"
 import { ScrollArea } from "../components/ui/scroll-area"
+import CreatorInformationFragment from "../menu-fragments/creatorinfo"
 
 export default function ServerDashboard() {
     return (
@@ -39,6 +40,7 @@ export default function ServerDashboard() {
                             <Route path="levels" element={<LevelFragment />} />
                             <Route path="birthdays" element={<BirthdaysFragment />} />
                             <Route path="tools" element={<ToolsFragment />} />
+                            <Route path="creator" element={<CreatorInformationFragment />} />
                         </Routes>
                     </main>
                 </ScrollArea>

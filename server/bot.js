@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log("Current working directory for bot:", process.cwd())
+
 // Initialize Discord client
 const client = new discord.Client({
     intents: [

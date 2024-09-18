@@ -9,6 +9,7 @@ import {
     Hand,
     HeartHandshake,
     HomeIcon,
+    Info,
     Mail,
     Send,
     ShieldCheck,
@@ -247,6 +248,23 @@ const DashboardSidebar: React.FC = () => {
                             </TooltipTrigger>
                             <TooltipContent side="right" sideOffset={5}>
                                 Tools
+                            </TooltipContent>
+                        </Tooltip>
+                    </Link>
+                    <Link to="/serverdashboard/creator">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-lg"
+                                aria-label="Creator"
+                                >
+                                <Info className="size-5" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                Creator
                             </TooltipContent>
                         </Tooltip>
                     </Link>
