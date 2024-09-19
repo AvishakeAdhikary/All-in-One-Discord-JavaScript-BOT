@@ -109,12 +109,12 @@ export function GradientPicker({
             <TabsTrigger className="flex-1" value="solid">
               Solid
             </TabsTrigger>
-            <TabsTrigger className="flex-1" value="gradient">
+            {/* <TabsTrigger className="flex-1" value="gradient">
               Gradient
             </TabsTrigger>
             <TabsTrigger className="flex-1" value="image">
               Image
-            </TabsTrigger>
+            </TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="solid" className="flex flex-wrap gap-1 mt-0">

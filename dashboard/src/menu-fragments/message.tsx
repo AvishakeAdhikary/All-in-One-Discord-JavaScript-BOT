@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Avatar } from "../components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Textarea } from "../components/ui/textarea";
@@ -12,22 +12,51 @@ import { cn } from "../lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "../components/ui/calendar";
+import { useServer } from "../contexts/ServerContext";
 
 const MessageFragment: React.FC = () => {
-    const handleSendMessage = () => { console.log("Inside handleSendMessage()."); };
+    const { server } = useServer();
+
+    const handleProfileFetch = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/auth/profile', {
+                credentials: 'include'
+            });
+            if (response.ok) {
+                const userData = await response.json();
+                console.log(userData);
+            } else {
+                throw new Error('Failed to fetch user info');
+            }
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+            console.error('Error fetching user info:', errorMessage);
+        }
+    }
+
+    useEffect(() => {
+        handleProfileFetch();
+      }, []);
+
+    const handleSendMessage = () => { 
+        console.log("Inside handleSendMessage().");
+        console.log(server);
+    };
     const handleSendEmbedding = () => { console.log("Inside handleSendEmbedding()."); };
 
     const [color, setColor] = useState('#1F2225');
     const [date, setDate] = useState<Date>()
     const [embeddingMessageContent, setEmbeddingMessageContent] = useState("");
+    const [embeddingAuthor, setEmbeddingAuthor] = useState("Author");
+    const [embeddingAuthorURL, setEmbeddingAuthorURL] = useState("https://avishakeadhikary.github.io/");
+    const [embeddingAuthorIconURL, setEmbeddingAuthorIconURL] = useState("https://placehold.co/600x600");
     const [embeddingTitle, setEmbeddingTitle] = useState("Title");
-    const [embeddingTitleURL, setEmbeddingTitleURL] = useState("https://avishakeadhikary.github.io/");
     const [embeddingContent, setEmbeddingContent] = useState("Content");
+    const [embeddingTitleURL, setEmbeddingTitleURL] = useState("https://www.google.com/");
     const [embeddingImageURL, setEmbeddingImageURL] = useState("https://placehold.co/600x600");
     const [embeddingThumbnailURL, setEmbeddingThumbnailURL] = useState("https://placehold.co/600x600");
-    const [embeddingAuthor, setEmbeddingAuthor] = useState("Author");
-    const [embeddingAuthorIconURL, setEmbeddingAuthorIconURL] = useState("https://placehold.co/600x600");
-    const [embeddingAuthorURL, setEmbeddingAuthorURL] = useState("https://avishakeadhikary.github.io/");
+    const [embeddingFooterTitle, setEmbeddingFooterTitle] = useState("Footer");
+    const [embeddingFooterIconURL, setEmbeddingFooterIconURL] = useState("https://placehold.co/600x600");
 
     return(
         <div className="space-y-2">
@@ -78,10 +107,10 @@ const MessageFragment: React.FC = () => {
                                 </CardContent>
                                 <CardFooter className="flex flex-row space-x-2">
                                     <Avatar>
-                                        <AvatarImage src={embeddingAuthorIconURL} />
+                                        <AvatarImage src={embeddingFooterIconURL} />
                                     </Avatar>
-                                    <CardDescription>Footer Description</CardDescription>
-                                    <CardDescription>Timestamp 06/09/1969</CardDescription>
+                                    <CardDescription>{embeddingFooterTitle}</CardDescription>
+                                    <CardDescription>{date?.toDateString()}</CardDescription>
                                 </CardFooter>
                             </div>
                             <div className="max-w-[80px] max-h-[80px] my-8">
@@ -91,22 +120,22 @@ const MessageFragment: React.FC = () => {
                     </Card>
                     <Card className="flex flex-col p-2 w-full space-y-2">
                         <Textarea placeholder="Message Content" defaultValue={embeddingMessageContent} onChange={event => setEmbeddingMessageContent(event.target.value)}></Textarea>
-                        <Input type="text" placeholder="Embedding Author" />
+                        <Input type="text" placeholder="Embedding Author" defaultValue={embeddingAuthor} onChange={event => setEmbeddingAuthor(event.target.value)} />
                         <div className="flex flex-row space-x-2">
-                            <Input type="text" placeholder="Embedding Author URL" />
-                            <Input type="text" placeholder="Embedding Author Icon URL" />
+                            <Input type="text" placeholder="Embedding Author URL" defaultValue={embeddingAuthorURL} onChange={event => setEmbeddingAuthorURL(event.target.value)} />
+                            <Input type="text" placeholder="Embedding Author Icon URL" defaultValue={embeddingAuthorIconURL} onChange={event => setEmbeddingAuthorIconURL(event.target.value)} />
                         </div>
-                        <Input type="text" placeholder="Embedding Title" />
-                        <Textarea placeholder="Embedding Description"></Textarea>
+                        <Input type="text" placeholder="Embedding Title" defaultValue={embeddingTitle} onChange={event => setEmbeddingTitle(event.target.value)} />
+                        <Textarea placeholder="Embedding Content" defaultValue={embeddingContent} onChange={event => setEmbeddingContent(event.target.value)}></Textarea>
                         <div className="flex flex-row space-x-2">
-                            <Input type="text" placeholder="Embedding Link URL" />
+                            <Input type="text" placeholder="Embedding URL" defaultValue={embeddingTitleURL} onChange={event => setEmbeddingTitleURL(event.target.value)} />
                             <GradientPicker background={color} setBackground={setColor} />
                         </div>
-                        <Input type="text" placeholder="Image URL" />
-                        <Input type="text" placeholder="Thumbnail URL" />
-                        <Input type="text" placeholder="Footer Title" />
+                        <Input type="text" placeholder="Image URL" defaultValue={embeddingImageURL} onChange={event => setEmbeddingImageURL(event.target.value)} />
+                        <Input type="text" placeholder="Thumbnail URL" defaultValue={embeddingThumbnailURL} onChange={event => setEmbeddingThumbnailURL(event.target.value)} />
+                        <Input type="text" placeholder="Footer Title" defaultValue={embeddingFooterTitle} onChange={event => setEmbeddingFooterTitle(event.target.value)} />
                         <div className="flex flex-row space-x-2">
-                            <Input type="text" placeholder="Footer Icon URL" />
+                            <Input type="text" placeholder="Footer Icon URL" defaultValue={embeddingFooterIconURL} onChange={event => setEmbeddingFooterIconURL(event.target.value)} />
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -117,7 +146,7 @@ const MessageFragment: React.FC = () => {
                                     )}
                                     >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                    {date ? format(date, "PPP") : <p>Pick a date</p>}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">

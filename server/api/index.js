@@ -11,6 +11,18 @@ router.get('/status', (req, res) => {
     }
 });
 
+router.get('/haspermissions', (req, res) => {
+    const { userId, serverId } = req.body;
+    if (!userId || !serverId) {
+        return res.status(400).json({ error: 'User ID and Server ID are required' });
+    }
+    const server = client.guilds.cache.get(serverId);
+    if(!server)
+    {
+        return res.status(404).json({ error: 'Server not found.' });
+    }
+});
+
 router.post('/send-message', async (req, res) => {
     const { channelId, message } = req.body;
 

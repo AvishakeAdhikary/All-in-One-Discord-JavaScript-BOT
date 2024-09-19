@@ -26,7 +26,7 @@ const LoginPage = () => {
                         <KeyRound className="mr-2 h-4 w-4" />
                     )
                 }
-                {isLoggingIn? "Logging in..." : "Login with discord"} 
+                {isLoggingIn? "Logging in..." : "Login with Discord"} 
             </Button>
         </div>
     );
