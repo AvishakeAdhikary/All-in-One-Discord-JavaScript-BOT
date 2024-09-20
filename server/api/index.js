@@ -54,14 +54,13 @@ router.post('/textchannels', (req, res) => {
         return res.status(404).json({ error: 'Server not found.' });
     }
 
-    const textChannels = server.channels.cache
-        .filter(channel => channel.isText())
-        .map(channel => ({
-            id: channel.id,
-            name: channel.name,
-            topic: channel.topic || null,
-        }));
-
+    const textChannels = server.channels.cache.filter((channel) => {
+        if(channel.isTextBased())
+        {
+            return channel;
+        }
+    });
+    console.log(textChannels.size)
     res.json({ textChannels });
 });
 

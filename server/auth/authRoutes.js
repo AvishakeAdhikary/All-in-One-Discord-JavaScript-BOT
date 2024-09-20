@@ -47,18 +47,4 @@ router.get('/servers', (req, res) => {
     res.json(adminGuilds);
 });
 
-// router.get('/server/:serverid', (req, res) => {
-//     if (!req.session.user) {
-//         return res.redirect('http://localhost:3000/login');
-//     }
-
-//     const ADMINISTRATOR_PERMISSION = 8;
-//     const adminGuilds = req.session.guilds.filter(guild => {
-//         const permissions = BigInt(guild.permissions);
-//         return (permissions & BigInt(ADMINISTRATOR_PERMISSION)) !== BigInt(0);
-//     });
-//     if()
-//     res.json(adminGuilds);
-// });
-
 export default router;

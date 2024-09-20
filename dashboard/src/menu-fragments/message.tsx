@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
@@ -16,6 +16,8 @@ import { useServer } from "../contexts/ServerContext";
 
 const MessageFragment: React.FC = () => {
     const { server } = useServer();
+    const [profile, setProfile] = useState(null);
+    const [channels, setChannels] = useState(null);
 
     const handleProfileFetch = async () => {
         try {
@@ -24,7 +26,7 @@ const MessageFragment: React.FC = () => {
             });
             if (response.ok) {
                 const userData = await response.json();
-                console.log(userData);
+                setProfile(userData);
             } else {
                 throw new Error('Failed to fetch user info');
             }
@@ -34,13 +36,35 @@ const MessageFragment: React.FC = () => {
         }
     }
 
-    useEffect(() => {
-        handleProfileFetch();
-      }, []);
+    const handleFetchChannels = async (serverId: string | null) => {
+        try {
+            const response = await fetch('http://localhost:3001/api/textchannels', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ serverId }),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'An error occurred');
+            }
+    
+            const data = await response.json();
+            console.log("Channels:", data)
+        } catch (error) {
+            console.error('Error fetching text channels:', error);
+        }
+    }
 
-    const handleSendMessage = () => { 
-        console.log("Inside handleSendMessage().");
-        console.log(server);
+    const handleSendMessage = async () => { 
+        await handleProfileFetch();
+        console.log("Profile:", profile);
+        console.log("Server:", server);
+        server? handleFetchChannels(server.id) : (
+            console.log("Server not found")
+        );
     };
     const handleSendEmbedding = () => { console.log("Inside handleSendEmbedding()."); };
 
