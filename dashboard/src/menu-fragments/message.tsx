@@ -60,7 +60,15 @@ const MessageFragment: React.FC = () => {
             }
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-            console.error('Error fetching user info:', errorMessage);
+            toast({
+                variant: "destructive",
+                title: "Error fetching user info.",
+                description: (
+                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                        <code className="text-white">{JSON.stringify({"error": errorMessage.toString()}, null, 2)}</code>
+                    </pre>
+                ),
+            });
             return null;
         }
     }
@@ -69,6 +77,7 @@ const MessageFragment: React.FC = () => {
         const profile = await handleProfileFetch();
         if (!profile || !server) {
             console.log("Profile or server not found.");
+            
             return;
         }
     
@@ -92,13 +101,12 @@ const MessageFragment: React.FC = () => {
             const data = await response.json();
             setChannels(data.textChannels);
         } catch (error) {
-            console.error('Error fetching text channels:', error);
             toast({
                 variant: "destructive",
                 title: "Error fetching text channels.",
                 description: (
                     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                        <code className="text-white">{JSON.stringify(error, null, 2)}</code>
+                        <code className="text-white">{JSON.stringify({"error": error}, null, 2)}</code>
                     </pre>
                 ),
             })
@@ -109,7 +117,15 @@ const MessageFragment: React.FC = () => {
         console.log("Selected Channel Id:", selectedChannelId);
         console.log("Message Content", messageContent);
         if (!selectedChannelId || !messageContent) {
-            console.error("Channel and message content are required");
+            toast({
+                variant: "destructive",
+                title: "Error sending message.",
+                description: (
+                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                        <code className="text-white">{JSON.stringify({"error": "Channel and message content are required"}, null, 2)}</code>
+                    </pre>
+                ),
+            });
             return;
         }
     
@@ -134,7 +150,15 @@ const MessageFragment: React.FC = () => {
             setMessageContent("");
             setSelectedChannelId(null);
         } catch (error) {
-            console.error('Error sending message:', error);
+            toast({
+                variant: "destructive",
+                title: "Error sending message.",
+                description: (
+                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                        <code className="text-white">{JSON.stringify({"error": error}, null, 2)}</code>
+                    </pre>
+                ),
+            });
         }
     };
 
@@ -151,7 +175,7 @@ const MessageFragment: React.FC = () => {
             })
             return;
         }
-    
+        
         const embedData = {
             title: embeddingTitle,
             content: embeddingMessageContent,
@@ -163,6 +187,7 @@ const MessageFragment: React.FC = () => {
             thumbnail: embeddingThumbnailURL,
             footerTitle: embeddingFooterTitle,
             footerIcon: embeddingFooterIconURL,
+            date: date,
             color: color,
         };
     
@@ -197,6 +222,7 @@ const MessageFragment: React.FC = () => {
             setEmbeddingThumbnailURL("");
             setEmbeddingFooterTitle("");
             setEmbeddingFooterIconURL("");
+            setColor('#1F2225');
             setDate(undefined);
         }
     };
