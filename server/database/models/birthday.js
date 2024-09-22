@@ -5,6 +5,8 @@ const birthdaySchema = new mongoose.Schema({
     day: { type: Number, required: true },
     month: { type: Number, required: true },
     year: { type: Number }
+}, {
+    collection: 'birthdays'
 });
 
 const Birthday = mongoose.model('Birthday', birthdaySchema);
