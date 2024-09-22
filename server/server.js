@@ -3,10 +3,12 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import session from 'express-session';
+import cron from 'node-cron';
 import client, { loadCommands, loadEvents } from './bot.js';
 import apiRoutes from './api/index.js';
 import authRoutes from './auth/authRoutes.js';
 import discord from 'discord.js'
+import Birthday from './database/models/birthday.js';
 
 dotenv.config();
 
@@ -47,4 +49,21 @@ app.listen(SERVER_PORT, () => {
             loadEvents(rest);
         })
         .catch(error => console.error('Error occurred while trying to create bot with token.', error));
+    
+    cron.schedule('0 0 * * *', async () => {
+        console.log('Checking for birthdays...');
+        const today = new Date();
+        const day = today.getDate();
+        const month = today.getMonth() + 1;
+
+        const birthdaysToday = await Birthday.find({ day, month });
+        if (birthdaysToday.length > 0) {
+            birthdaysToday.forEach(async (birthdayData) => {
+                const user = await client.users.fetch(birthdayData.userId);
+                if (user) {
+                    user.send(`🎉 Happy Birthday, ${user.username}! 🎉`);
+                }
+            });
+        }
+    });
 });
