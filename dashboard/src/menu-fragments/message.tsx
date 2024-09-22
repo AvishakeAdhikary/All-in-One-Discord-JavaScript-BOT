@@ -177,8 +177,9 @@ const MessageFragment: React.FC = () => {
         }
         
         const embedData = {
+            messageContent: embeddingMessageContent,
             title: embeddingTitle,
-            content: embeddingMessageContent,
+            content: embeddingContent,
             url: embeddingTitleURL,
             author: embeddingAuthor,
             authorIcon: embeddingAuthorIconURL,
@@ -187,7 +188,7 @@ const MessageFragment: React.FC = () => {
             thumbnail: embeddingThumbnailURL,
             footerTitle: embeddingFooterTitle,
             footerIcon: embeddingFooterIconURL,
-            date: date,
+            date: date ? date : new Date().toISOString(),
             color: color,
         };
     
@@ -236,7 +237,7 @@ const MessageFragment: React.FC = () => {
                 <CardContent className="w-full space-y-2">
                     <Card className="flex w-full space-x-2 p-2">
                         <Button onClick={() => {handleFetchChannels()}}>Fetch Channels</Button>
-                        <Select onValueChange={setSelectedChannelId} disabled={channels.length === 0}>
+                        <Select onValueChange={(value) => setSelectedChannelId(value)} disabled={channels.length === 0}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Channels" />
                             </SelectTrigger>
@@ -293,23 +294,23 @@ const MessageFragment: React.FC = () => {
                         </Card>
                     </Card>
                     <Card className="flex flex-col p-2 w-full space-y-2">
-                        <Textarea placeholder="Message Content" defaultValue={embeddingMessageContent} onChange={event => setEmbeddingMessageContent(event.target.value)} />
-                        <Input type="text" placeholder="Embedding Author" onChange={event => setEmbeddingAuthor(event.target.value)} />
+                        <Textarea placeholder="Message Content" value={embeddingMessageContent} onChange={event => setEmbeddingMessageContent(event.target.value)} />
+                        <Input type="text" placeholder="Embedding Author" value={embeddingAuthor} onChange={event => setEmbeddingAuthor(event.target.value)} />
                         <div className="flex flex-row space-x-2">
-                            <Input type="text" placeholder="Embedding Author URL" onChange={event => setEmbeddingAuthorURL(event.target.value)} />
-                            <Input type="text" placeholder="Embedding Author Icon URL" onChange={event => setEmbeddingAuthorIconURL(event.target.value)} />
+                            <Input type="text" placeholder="Embedding Author URL" value={embeddingAuthorURL} onChange={event => setEmbeddingAuthorURL(event.target.value)} />
+                            <Input type="text" placeholder="Embedding Author Icon URL" value={embeddingAuthorIconURL} onChange={event => setEmbeddingAuthorIconURL(event.target.value)} />
                         </div>
-                        <Input type="text" placeholder="Embedding Title" onChange={event => setEmbeddingTitle(event.target.value)} />
-                        <Textarea placeholder="Embedding Content" onChange={event => setEmbeddingContent(event.target.value)}></Textarea>
+                        <Input type="text" placeholder="Embedding Title" value={embeddingTitle} onChange={event => setEmbeddingTitle(event.target.value)} />
+                        <Textarea placeholder="Embedding Content" value={embeddingContent} onChange={event => setEmbeddingContent(event.target.value)}></Textarea>
                         <div className="flex flex-row space-x-2">
-                            <Input type="text" placeholder="Embedding URL" onChange={event => setEmbeddingTitleURL(event.target.value)} />
+                            <Input type="text" placeholder="Embedding URL" value={embeddingTitleURL} onChange={event => setEmbeddingTitleURL(event.target.value)} />
                             <GradientPicker background={color} setBackground={setColor} />
                         </div>
-                        <Input type="text" placeholder="Image URL" onChange={event => setEmbeddingImageURL(event.target.value)} />
-                        <Input type="text" placeholder="Thumbnail URL" onChange={event => setEmbeddingThumbnailURL(event.target.value)} />
-                        <Input type="text" placeholder="Footer Title" onChange={event => setEmbeddingFooterTitle(event.target.value)} />
+                        <Input type="text" placeholder="Image URL" value={embeddingImageURL} onChange={event => setEmbeddingImageURL(event.target.value)} />
+                        <Input type="text" placeholder="Thumbnail URL" value={embeddingThumbnailURL} onChange={event => setEmbeddingThumbnailURL(event.target.value)} />
+                        <Input type="text" placeholder="Footer Title" value={embeddingFooterTitle} onChange={event => setEmbeddingFooterTitle(event.target.value)} />
                         <div className="flex flex-row space-x-2">
-                            <Input type="text" placeholder="Footer Icon URL" onChange={event => setEmbeddingFooterIconURL(event.target.value)} />
+                            <Input type="text" placeholder="Footer Icon URL" value={embeddingFooterIconURL} onChange={event => setEmbeddingFooterIconURL(event.target.value)} />
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -338,11 +339,11 @@ const MessageFragment: React.FC = () => {
                 <CardContent className="w-full space-y-2">
                     <Card className="flex w-full space-x-2 p-2">
                         <Button onClick={() => {handleFetchChannels()}}>Fetch Channels</Button>
-                        <Select onValueChange={setSelectedChannelId} disabled={channels.length === 0}>
+                        <Select value={selectedChannelId ?? undefined} onValueChange={(value) => setSelectedChannelId(value)} disabled={channels.length === 0}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Channels" />
                             </SelectTrigger>
-                            <SelectContent id="selectMessageChannel" position="popper">
+                            <SelectContent id="selectEmbeddingChannel" position="popper">
                                 {channels.map((channel) => (
                                     <SelectItem key={channel.id} value={channel.id}>
                                         {channel.name}

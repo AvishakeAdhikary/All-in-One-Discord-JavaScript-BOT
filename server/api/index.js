@@ -96,8 +96,6 @@ router.post('/send-message', async (req, res) => {
 router.post('/send-embedding', async (req, res) => {
     const { channelId, embed } = req.body;
 
-    console.log(req.body);
-
     if (!channelId || !embed) {
         return res.status(400).json({ error: 'Channel ID and embed data are required' });
     }
@@ -106,10 +104,6 @@ router.post('/send-embedding', async (req, res) => {
 
     if (!channel || !channel.isTextBased()) {
         return res.status(404).json({ error: 'Channel not found or not text-based' });
-    }
-
-    if (!embed.date) {
-        return res.status(404).json({ error: 'Footer Date is not defined.' });
     }
 
     try {
@@ -136,7 +130,7 @@ router.post('/send-embedding', async (req, res) => {
             }
         };
 
-        await channel.send({ embeds: [embedMessage] });
+        await channel.send({content: embed.messageContent,  embeds: [embedMessage] });
         res.status(200).json({ success: true });
     } catch (error) {
         console.error('Error sending embedding:', error);
