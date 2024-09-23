@@ -4,6 +4,7 @@ import { globby } from 'globby';
 import discord from 'discord.js';
 import { Routes } from 'discord-api-types/v10';
 import dotenv from 'dotenv';
+import { Player } from 'discord-player';
 
 dotenv.config();
 
@@ -12,17 +13,34 @@ console.log("Current working directory for bot:", process.cwd())
 // Initialize Discord client
 const client = new discord.Client({
     intents: [
+        discord.GatewayIntentBits.AutoModerationConfiguration,
+        discord.GatewayIntentBits.AutoModerationExecution,
+        discord.GatewayIntentBits.DirectMessagePolls,
+        discord.GatewayIntentBits.DirectMessageReactions,
+        discord.GatewayIntentBits.DirectMessageTyping,
+        discord.GatewayIntentBits.DirectMessages,
+        discord.GatewayIntentBits.GuildEmojisAndStickers,
+        discord.GatewayIntentBits.GuildIntegrations,
+        discord.GatewayIntentBits.GuildInvites,
+        discord.GatewayIntentBits.GuildMembers,
+        discord.GatewayIntentBits.GuildMessagePolls,
+        discord.GatewayIntentBits.GuildMessageReactions,
+        discord.GatewayIntentBits.GuildMessageTyping,
+        discord.GatewayIntentBits.GuildMessages,
+        discord.GatewayIntentBits.GuildModeration,
+        discord.GatewayIntentBits.GuildPresences,
+        discord.GatewayIntentBits.GuildScheduledEvents,
+        discord.GatewayIntentBits.GuildVoiceStates,
+        discord.GatewayIntentBits.GuildWebhooks,
         discord.GatewayIntentBits.Guilds,
         discord.GatewayIntentBits.MessageContent,
-        discord.GatewayIntentBits.GuildMessages,
-        discord.GatewayIntentBits.GuildMembers,
-        discord.GatewayIntentBits.GuildPresences
     ]
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 console.log('Scanning commands and events from directory:', __dirname);
 
+export const player = new Player(client);
 
 export async function loadCommands(rest) {
     try {

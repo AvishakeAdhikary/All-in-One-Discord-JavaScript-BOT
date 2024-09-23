@@ -29,7 +29,7 @@ export default {
                 { upsert: true, new: true }
             );
 
-            await interaction.reply(`Your birthday has been set to ${day}/${month}${year ? `/${year}` : ''}.`);
+            await interaction.reply({ content: `Your birthday has been set to ${day}/${month}${year ? `/${year}` : ''}.`, ephimeral: true });
         } catch (error) {
             console.error('Error setting birthday:', error);
             await interaction.reply('There was an error setting your birthday. Please try again later.');

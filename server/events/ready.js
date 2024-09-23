@@ -14,6 +14,6 @@ export default {
 			}],
 			afk: false,
 			status: discord.PresenceUpdateStatus.Online,
-		})
+		});
 	},
 };

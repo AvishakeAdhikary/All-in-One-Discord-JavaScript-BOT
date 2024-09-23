@@ -18,6 +18,8 @@ const SERVER_PORT = process.env.SERVER_PORT || 3001;
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
+app.use(express.static('/static'))
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'barneystinson',
     resave: false,
@@ -55,15 +57,28 @@ app.listen(SERVER_PORT, () => {
         const today = new Date();
         const day = today.getDate();
         const month = today.getMonth() + 1;
-
-        const birthdaysToday = await Birthday.find({ day, month });
-        if (birthdaysToday.length > 0) {
-            birthdaysToday.forEach(async (birthdayData) => {
-                const user = await client.users.fetch(birthdayData.userId);
-                if (user) {
-                    user.send(`🎉 Happy Birthday, ${user.username}! 🎉`);
+    
+        const guilds = client.guilds.cache;
+    
+        for (const guild of guilds.values()) {
+            const birthdayChannelSetting = await BirthdaySettings.findOne({ guildId: guild.id });
+    
+            if (!birthdayChannelSetting) continue;
+    
+            const birthdaysToday = await Birthday.find({ day, month });
+    
+            const channel = guild.channels.cache.get(birthdayChannelSetting.channelId);
+            
+            if (channel && channel.isText()) {
+                for (const birthdayData of birthdaysToday) {
+                    const user = await guild.members.fetch(birthdayData.userId).catch(() => null);
+                    if (user) {
+                        channel.send(`🎉 Happy Birthday, <@${user.id}>! 🎉`);
+                    }
                 }
-            });
+            } else {
+                console.warn(`Channel with ID ${birthdayChannelSetting.channelId} not found or is not a text channel.`);
+            }
         }
     });
 });
