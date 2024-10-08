@@ -44,10 +44,10 @@ const player = new Player(client);
 try {
     await player.extractors.loadDefault((ext) => ext !== 'YouTubeExtractor');
 } catch (e) {
-    console.log(`Error occured while extracting music player: ${e.message}`);
+    console.log(`Error occured while extracting music player: ${e}`);
 }
 
-export async function loadCommands(rest) {
+export async function loadCommands(rest, fullReload = false) {
     try {
         if (!client.user || !client.user.id) {
             throw new Error('Client user ID is not available. Ensure the bot is logged in.');
@@ -59,16 +59,18 @@ export async function loadCommands(rest) {
             throw new Error('Failed to fetch commands. Response was not an array.');
         }
 
-        for (const command of commands) {
-            try {
-                if (command.id) {
-                    await rest.delete(Routes.applicationCommand(client.user.id, command.id));
-                    console.log(`Deleted old command: ${command.name}`);
-                } else {
-                    console.warn(`Skipping command deletion: Command ID is missing.`);
+        if (fullReload) {
+            for (const command of commands) {
+                try {
+                    if (command.id) {
+                        await rest.delete(Routes.applicationCommand(client.user.id, command.id));
+                        console.log(`Deleted old command: ${command.name}`);
+                    } else {
+                        console.warn(`Skipping command deletion: Command ID is missing.`);
+                    }
+                } catch (error) {
+                    console.error(`Error deleting command ${command.name}:`, error);
                 }
-            } catch (error) {
-                console.error(`Error deleting command ${command.name}:`, error);
             }
         }
 

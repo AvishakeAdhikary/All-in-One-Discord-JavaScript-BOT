@@ -36,7 +36,7 @@ export default {
                     metadata: interaction.channel
                 }
             });
-            await interaction.followUp({ content: `Loading your track(s)` });
+            await interaction.followUp({ content: `Loading your track(s) - \`${searchResult}.\`` });
         } catch (error) {
             console.error("Error: ", error);
             await interaction.followUp({ content: `Error occurred while loading track: \`${error.message}\`` });

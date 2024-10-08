@@ -7,7 +7,9 @@
   "scripts": {
     "start:dashboard": "cd dashboard && npm run dev",
     "start:server": "node .",
-    "start": "concurrently \"npm run start:dashboard\" \"npm run start:server\""
+    "start": "concurrently \"npm run start:dashboard\" \"npm run start:server\"",
+    "reload:server": "node . --reload",
+    "start:reload": "concurrently \"npm run start:dashboard\" \"npm run reload:server\""
   },
   "repository": {
     "type": "git",

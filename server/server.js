@@ -32,6 +32,8 @@ app.use('/api', apiRoutes);
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || null;
 const rest = new discord.REST({ version: '10' }).setToken(DISCORD_BOT_TOKEN);
 
+const fullReload = process.argv.includes('--reload');
+
 app.listen(SERVER_PORT, () => {
     console.log(`Listening on server port: ${SERVER_PORT}.`);
     console.log("Attempting to connect to database.");
@@ -47,7 +49,12 @@ app.listen(SERVER_PORT, () => {
     client.login(DISCORD_BOT_TOKEN)
         .then(() => console.log('Bot logged in successfully.'))
         .then(() => {
-            loadCommands(rest);
+            if(fullReload)
+            {
+                loadCommands(rest, true);
+            } else {
+                loadCommands(rest, false);
+            }
             loadEvents(rest);
         })
         .catch(error => console.error('Error occurred while trying to create bot with token.', error));
