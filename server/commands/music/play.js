@@ -52,7 +52,7 @@ export default {
         
         return interaction.respond(
             results.tracks.slice(0, 25).map((t) => ({
-                name: `${t.title} - ${t.author} [${t.duration}] \`${t.source}\``.slice(0, 100),
+                name: `${t.title} - ${t.author} [${t.duration}] (${t.source.toUpperCase()})`.slice(0, 100),
                 value: t.url
             })).filter(t => t.name.length > 0)
         );
