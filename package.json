@@ -27,6 +27,7 @@
     "globals": "^15.9.0"
   },
   "dependencies": {
+    "@discord-player/extractor": "^4.5.1",
     "@discordjs/voice": "^0.17.0",
     "@google/generative-ai": "^0.19.0",
     "@napi-rs/canvas": "^0.1.56",
@@ -37,8 +38,10 @@
     "discord-player": "^6.7.1",
     "discord.js": "^14.16.1",
     "express-session": "^1.18.0",
+    "ffmpeg-static": "^5.2.0",
     "globby": "^14.0.2",
     "libsodium-wrappers": "^0.7.15",
+    "mediaplex": "^0.0.9",
     "mongoose": "^8.6.1",
     "node-cron": "^3.0.3",
     "openai": "^4.63.0"

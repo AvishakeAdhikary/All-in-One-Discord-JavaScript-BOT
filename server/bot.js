@@ -40,7 +40,12 @@ const client = new discord.Client({
 const __dirname = dirname(fileURLToPath(import.meta.url));
 console.log('Scanning commands and events from directory:', __dirname);
 
-export const player = new Player(client);
+const player = new Player(client);
+try {
+    await player.extractors.loadDefault((ext) => ext !== 'YouTubeExtractor');
+} catch (e) {
+    console.log(`Error occured while extracting music player: ${e.message}`);
+}
 
 export async function loadCommands(rest) {
     try {

@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { player } from '../../bot.js';
 
 export default {
     data: new SlashCommandBuilder()
