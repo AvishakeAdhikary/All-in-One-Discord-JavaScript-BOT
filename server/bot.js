@@ -5,6 +5,7 @@ import discord from 'discord.js';
 import { Routes } from 'discord-api-types/v10';
 import dotenv from 'dotenv';
 import { Player } from 'discord-player';
+import { YoutubeiExtractor } from "discord-player-youtubei";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ console.log('Scanning commands and events from directory:', __dirname);
 const player = new Player(client);
 try {
     await player.extractors.loadDefault((ext) => ext !== 'YouTubeExtractor');
+    player.extractors.register(YoutubeiExtractor, {});
 } catch (e) {
     console.log(`Error occured while extracting music player: ${e}`);
 }
@@ -116,7 +118,13 @@ export async function loadEvents(rest) {
         if (event.once) {
             client.once(event.name, (...args) => event.execute(...args));
         } else {
-            client.on(event.name, (...args) => event.execute(...args));
+            if (event.category == 'music')
+            {
+                player.events.on(event.name, (...args) => event.execute(...args));
+            }
+            else {
+                client.on(event.name, (...args) => event.execute(...args));
+            }
         }
     }
 }

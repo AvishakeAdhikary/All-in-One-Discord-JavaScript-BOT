@@ -31,12 +31,12 @@ export default {
         }
 
         try {
-            await player.play(channel, searchResult, {
+            const { track } = await player.play(channel, searchResult, {
                 nodeOptions: {
                     metadata: interaction.channel
                 }
             });
-            await interaction.followUp({ content: `Loading your track(s) - \`${searchResult}.\`` });
+            await interaction.followUp({ content: `Loading your track(s) - \`${track.title}.\`` });
         } catch (error) {
             console.error("Error: ", error);
             await interaction.followUp({ content: `Error occurred while loading track: \`${error.message}\`` });
