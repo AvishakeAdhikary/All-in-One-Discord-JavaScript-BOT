@@ -4,7 +4,7 @@ export default {
     name: 'audioTracksAdd',
     category: 'music',
     async execute(queue, tracks) {
-        const trackTitles = tracks.map(track => `**${track.title}**`).join('\n');
+        const trackTitles = tracks.map((track, index) => `${index + 1}. \`${track.title}\``).join('\n');
         const embed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle(`Tracks Added`)
